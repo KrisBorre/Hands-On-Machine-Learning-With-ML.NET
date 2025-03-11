@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Text;
-
-using chapter03_logistic_regression.Common;
+﻿using chapter03_logistic_regression.Common;
 using chapter03_logistic_regression.ML.Base;
+using System;
+using System.IO;
 
 namespace chapter03_logistic_regression.ML
 {
@@ -13,8 +11,7 @@ namespace chapter03_logistic_regression.ML
         {
             var files = Directory.GetFiles(folderPath);
 
-            using (var streamWriter =
-                new StreamWriter(Path.Combine(AppContext.BaseDirectory, $"../../../Data/{Constants.SAMPLE_DATA}")))
+            using (var streamWriter = new StreamWriter(Path.Combine(AppContext.BaseDirectory, $"../../../Data/{Constants.SAMPLE_DATA}")))
             {
                 foreach (var file in files)
                 {

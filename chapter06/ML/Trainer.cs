@@ -71,8 +71,8 @@ namespace chapter06.ML
 
             var modelMetrics = MlContext.AnomalyDetection.Evaluate(testSetTransform);
 
-            Console.WriteLine($"Area Under Curve: {modelMetrics.AreaUnderRocCurve:P2}{Environment.NewLine}" +
-                              $"Detection at FP Count: {modelMetrics.DetectionRateAtFalsePositiveCount}");
+            Console.WriteLine($"Area Under ROC Curve: {modelMetrics.AreaUnderRocCurve:P2}{Environment.NewLine}" +
+                              $"Detection Rate at False Positive Count: {modelMetrics.DetectionRateAtFalsePositiveCount}");
         }
     }
 }

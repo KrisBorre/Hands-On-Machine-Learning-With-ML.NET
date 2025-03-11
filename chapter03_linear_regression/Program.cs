@@ -30,6 +30,14 @@ namespace chapter03
                     Console.WriteLine($"{args[0]} is an invalid option");
                     break;
             }
+
+            /*
+Loss Function: 271,32
+Mean Absolute Error: 14,05
+Mean Squared Error: 271,32
+RSquared: -0,54
+Root Mean Squared Error: 16,47
+             */
         }
     }
 }

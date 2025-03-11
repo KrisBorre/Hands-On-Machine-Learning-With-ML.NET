@@ -38,8 +38,7 @@ namespace chapter06.ML
 
             var predictionEngine = mlModel.CreateTimeSeriesEngine<NetworkTrafficHistory, NetworkTrafficPrediction>(MlContext);
 
-            var inputData =
-                MlContext.Data.LoadFromTextFile<NetworkTrafficHistory>(inputDataFile, separatorChar: ',');
+            var inputData = MlContext.Data.LoadFromTextFile<NetworkTrafficHistory>(inputDataFile, separatorChar: ',');
 
             var rows = MlContext.Data.CreateEnumerable<NetworkTrafficHistory>(inputData, false);
 
@@ -49,7 +48,7 @@ namespace chapter06.ML
             {
                 var prediction = predictionEngine.Predict(row);
 
-                Console.Write($"HOST: {row.HostMachine} TIMESTAMP: {row.Timestamp} TRANSFER: {row.BytesTransferred} ");
+                Console.Write($"Host Machine: {row.HostMachine} TIMESTAMP: {row.Timestamp} Bytes Transferred: {row.BytesTransferred} ");
                 Console.Write($"ALERT: {prediction.Prediction[0]} SCORE: {prediction.Prediction[1]:f2} P-VALUE: {prediction.Prediction[2]:F2}{Environment.NewLine}");
             }
         }

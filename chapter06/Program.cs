@@ -26,6 +26,12 @@ namespace chapter06
                     break;
                 case "train":
                     new Trainer().Train(args[1], args[2]);
+
+                    /*
+Area Under ROC Curve: 78,12%
+Detection Rate at False Positive Count: 1
+                     */
+
                     break;
                 default:
                     Console.WriteLine($"{args[0]} is an invalid option");

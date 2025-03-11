@@ -16,7 +16,7 @@ namespace chapter02.ML
             {
                 Console.WriteLine($"Failed to find training data file ({trainingFileName}");
 
-                return;
+                //return;
             }
 
             var trainingDataView = MlContext.Data.LoadFromTextFile<RestaurantFeedback>(trainingFileName);

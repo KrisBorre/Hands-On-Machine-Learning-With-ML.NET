@@ -49,8 +49,8 @@ namespace chapter04.ML
             var prediction = predictionEngine.Predict(JsonConvert.DeserializeObject<CarInventory>(json));
 
             Console.WriteLine(
-                                $"Based on input json:{System.Environment.NewLine}" +
-                                $"{json}{System.Environment.NewLine}" + 
+                                $"Based on input json:{Environment.NewLine}" +
+                                $"{json}{Environment.NewLine}" + 
                                 $"The car price is a {(prediction.PredictedLabel ? "good" : "bad")} deal, with a {prediction.Probability:P0} confidence");
         }
     }

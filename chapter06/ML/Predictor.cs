@@ -49,8 +49,8 @@ namespace chapter06.ML
             var prediction = predictionEngine.Predict(JsonConvert.DeserializeObject<LoginHistory>(json));
 
             Console.WriteLine(
-                                $"Based on input json:{System.Environment.NewLine}" +
-                                $"{json}{System.Environment.NewLine}" + 
+                                $"Based on input json:{Environment.NewLine}" +
+                                $"{json}{Environment.NewLine}" + 
                                 $"The login history is {(prediction.PredictedLabel ? "abnormal" : "normal")}, with a {prediction.Score:F2} outlier score");
         }
     }

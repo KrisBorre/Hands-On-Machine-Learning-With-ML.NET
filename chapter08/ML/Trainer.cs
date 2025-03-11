@@ -18,24 +18,24 @@ namespace chapter08.ML
             {
                 Console.WriteLine($"Failed to find training data file ({arguments.TrainingFileName})");
 
-                return;
+                //return;
             }
 
             if (!File.Exists(arguments.TestingFileName))
             {
                 Console.WriteLine($"Failed to find test data file ({arguments.TestingFileName})");
 
-                return;
+                //return;
             }
 
             var dataView = MlContext.Data.LoadFromTextFile<StockPrices>(arguments.TrainingFileName);
 
             var model = MlContext.Forecasting.ForecastBySsa(
                 outputColumnName: nameof(StockPrediction.StockForecast),
-                inputColumnName: nameof(StockPrices.StockPrice), 
-                windowSize: 7, 
-                seriesLength: 30, 
-                trainSize: 24, 
+                inputColumnName: nameof(StockPrices.StockPrice),
+                windowSize: 7,
+                seriesLength: 30,
+                trainSize: 24,
                 horizon: 5,
                 confidenceLevel: 0.95f,
                 confidenceLowerBoundColumn: nameof(StockPrediction.LowerBound),

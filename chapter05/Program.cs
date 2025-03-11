@@ -29,6 +29,13 @@ namespace chapter05
                     break;
                 case "train":
                     new Trainer().Train(args[1], args[2]);
+
+                    /*
+Average Distance: 0
+Davies Bould Index: 0
+Normalized Mutual Information: 1
+                     */
+
                     break;
                 default:
                     Console.WriteLine($"{args[0]} is an invalid option");
