@@ -5,6 +5,10 @@ using chapter02.ML.Base;
 using chapter02.ML.Objects;
 
 using Microsoft.ML;
+using Microsoft.ML.Calibrators;
+using Microsoft.ML.Data;
+using Microsoft.ML.Trainers;
+using Microsoft.ML.Transforms.Text;
 
 namespace chapter02.ML
 {
@@ -23,24 +27,24 @@ namespace chapter02.ML
 
             DataOperationsCatalog.TrainTestData dataSplit = MlContext.Data.TrainTestSplit(trainingDataView, testFraction: 0.2);
 
-            var dataProcessPipeline = MlContext.Transforms.Text.FeaturizeText(
-                outputColumnName: "Features", 
+            TextFeaturizingEstimator dataProcessPipeline = MlContext.Transforms.Text.FeaturizeText(
+                outputColumnName: "Features",
                 inputColumnName: nameof(RestaurantFeedback.Text));
 
-            var sdcaRegressionTrainer = MlContext.BinaryClassification.Trainers.SdcaLogisticRegression(
-                labelColumnName: nameof(RestaurantFeedback.Label), 
+            SdcaLogisticRegressionBinaryTrainer sdcaRegressionTrainer = MlContext.BinaryClassification.Trainers.SdcaLogisticRegression(
+                labelColumnName: nameof(RestaurantFeedback.Label),
                 featureColumnName: "Features");
 
-            var trainingPipeline = dataProcessPipeline.Append(sdcaRegressionTrainer);
+            EstimatorChain<BinaryPredictionTransformer<CalibratedModelParametersBase<LinearBinaryModelParameters, PlattCalibrator>>> trainingPipeline = dataProcessPipeline.Append(sdcaRegressionTrainer);
 
             ITransformer trainedModel = trainingPipeline.Fit(dataSplit.TrainSet);
             MlContext.Model.Save(trainedModel, dataSplit.TrainSet.Schema, ModelPath);
 
             IDataView testSetTransform = trainedModel.Transform(dataSplit.TestSet);
 
-            var modelMetrics = MlContext.BinaryClassification.Evaluate(
-                data: testSetTransform, 
-                labelColumnName: nameof(RestaurantFeedback.Label), 
+            CalibratedBinaryClassificationMetrics modelMetrics = MlContext.BinaryClassification.Evaluate(
+                data: testSetTransform,
+                labelColumnName: nameof(RestaurantFeedback.Label),
                 scoreColumnName: nameof(RestaurantPrediction.Score));
 
             Console.WriteLine($"Area Under Curve: {modelMetrics.AreaUnderRocCurve:P2}{Environment.NewLine}" +
