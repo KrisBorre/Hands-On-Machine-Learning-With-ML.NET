@@ -19,9 +19,9 @@ namespace chapter02.ML
                 //return;
             }
 
-            var trainingDataView = MlContext.Data.LoadFromTextFile<RestaurantFeedback>(trainingFileName);
+            IDataView trainingDataView = MlContext.Data.LoadFromTextFile<RestaurantFeedback>(trainingFileName);
 
-            var dataSplit = MlContext.Data.TrainTestSplit(trainingDataView, testFraction: 0.2);
+            DataOperationsCatalog.TrainTestData dataSplit = MlContext.Data.TrainTestSplit(trainingDataView, testFraction: 0.2);
 
             var dataProcessPipeline = MlContext.Transforms.Text.FeaturizeText(
                 outputColumnName: "Features", 
@@ -36,7 +36,7 @@ namespace chapter02.ML
             ITransformer trainedModel = trainingPipeline.Fit(dataSplit.TrainSet);
             MlContext.Model.Save(trainedModel, dataSplit.TrainSet.Schema, ModelPath);
 
-            var testSetTransform = trainedModel.Transform(dataSplit.TestSet);
+            IDataView testSetTransform = trainedModel.Transform(dataSplit.TestSet);
 
             var modelMetrics = MlContext.BinaryClassification.Evaluate(
                 data: testSetTransform, 
