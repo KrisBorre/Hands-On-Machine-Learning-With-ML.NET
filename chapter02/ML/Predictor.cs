@@ -20,7 +20,7 @@ namespace chapter02.ML
             }
 
             ITransformer mlModel;
-            
+
             using (var stream = new FileStream(ModelPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 mlModel = MlContext.Model.Load(stream, out _);
@@ -33,9 +33,9 @@ namespace chapter02.ML
                 return;
             }
 
-            var predictionEngine = MlContext.Model.CreatePredictionEngine<RestaurantFeedback, RestaurantPrediction>(mlModel);
+            PredictionEngine<RestaurantFeedback, RestaurantPrediction> predictionEngine = MlContext.Model.CreatePredictionEngine<RestaurantFeedback, RestaurantPrediction>(mlModel);
 
-            var prediction = predictionEngine.Predict(new RestaurantFeedback { Text = inputData });
+            RestaurantPrediction prediction = predictionEngine.Predict(new RestaurantFeedback { Text = inputData });
 
             Console.WriteLine($"Based on \"{inputData}\", the feedback is predicted to be:{Environment.NewLine}{(prediction.Prediction ? "Negative" : "Positive")} at a {prediction.Probability:P0} confidence");
         }
