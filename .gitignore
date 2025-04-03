@@ -115,3 +115,6 @@
 /chapter03_linear_regression/obj/Debug/netcoreapp3.0/chapter03.sourcelink.json
 /chapter03_linear_regression/obj/project.assets.json
 /chapter03_linear_regression/obj/project.nuget.cache
+/chapter02/.vs/chapter02/FileContentIndex/9dcc5949-079a-4a3a-8a4f-6bd5854d826c.vsidx
+*.bin
+/chapter02/.vs/chapter02/v17/DocumentLayout.backup.json
