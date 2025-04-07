@@ -23,6 +23,7 @@ namespace chapter03_logistic_regression.ML
 
             var dataSplit = MlContext.Data.TrainTestSplit(trainingDataView, testFraction: 0.2);
 
+            // A bi-gram, for instance, would take the following sentence, 'ML.NET is great' and convert it into 'ML-.N-ET-is-gr-ea-t'.
             var dataProcessPipeline = MlContext.Transforms.CopyColumns("Label", nameof(FileInput.Label))
                 .Append(MlContext.Transforms.Text.FeaturizeText("NGrams", nameof(FileInput.Strings)))
                 .Append(MlContext.Transforms.Concatenate("Features", "NGrams"));
