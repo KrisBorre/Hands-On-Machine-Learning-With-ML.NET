@@ -4,6 +4,11 @@ using chapter04.ML;
 
 namespace chapter04
 {
+    /// <summary>
+    /// Jarred Capellman build two ML.NET applications: the first, a binary classification example that will predict if a car's price is a good deal or not, akin to what you would find on a car purchase website; 
+    /// the other application, a multi-class classification application that categorizes emails.
+    /// A binary classification is a two-class classification. The prediction simply return 0 or 1.
+    /// </summary>
     class Program
     {
         static void Main(string[] args)

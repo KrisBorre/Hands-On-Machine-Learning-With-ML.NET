@@ -2,7 +2,7 @@
 
 namespace chapter04_multiclass.ML.Objects
 {
-    public class EmalPrediction
+    public class EmailPrediction
     {
         [ColumnName("PredictedLabel")]
         public string Category;

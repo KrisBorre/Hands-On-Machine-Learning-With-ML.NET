@@ -29,7 +29,7 @@ namespace chapter04.ML
             }
 
             ITransformer mlModel;
-            
+
             using (var stream = new FileStream(ModelPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 mlModel = MlContext.Model.Load(stream, out _);
@@ -42,16 +42,15 @@ namespace chapter04.ML
                 return;
             }
 
-            var predictionEngine = MlContext.Model.CreatePredictionEngine<CarInventory, CarInventoryPrediction>(mlModel);
+            PredictionEngine<CarInventory, CarInventoryPrediction> predictionEngine = MlContext.Model.CreatePredictionEngine<CarInventory, CarInventoryPrediction>(mlModel);
 
-            var json = File.ReadAllText(inputDataFile);
+            string json = File.ReadAllText(inputDataFile);
 
-            var prediction = predictionEngine.Predict(JsonConvert.DeserializeObject<CarInventory>(json));
+            CarInventoryPrediction prediction = predictionEngine.Predict(JsonConvert.DeserializeObject<CarInventory>(json));
 
-            Console.WriteLine(
-                                $"Based on input json:{Environment.NewLine}" +
-                                $"{json}{Environment.NewLine}" + 
-                                $"The car price is a {(prediction.PredictedLabel ? "good" : "bad")} deal, with a {prediction.Probability:P0} confidence");
+            Console.WriteLine($"Based on input json:{Environment.NewLine}" +
+                              $"{json}{Environment.NewLine}" +
+                              $"The car price is a {(prediction.PredictedLabel ? "good" : "bad")} deal, with a {prediction.Probability:P0} confidence");
         }
     }
 }

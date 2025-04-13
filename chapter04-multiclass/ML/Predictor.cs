@@ -29,7 +29,7 @@ namespace chapter04_multiclass.ML
             }
 
             ITransformer mlModel;
-            
+
             using (var stream = new FileStream(ModelPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 mlModel = MlContext.Model.Load(stream, out _);
@@ -42,15 +42,15 @@ namespace chapter04_multiclass.ML
                 return;
             }
 
-            var predictionEngine = MlContext.Model.CreatePredictionEngine<Email, EmalPrediction>(mlModel);
+            PredictionEngine<Email, EmailPrediction> predictionEngine = MlContext.Model.CreatePredictionEngine<Email, EmailPrediction>(mlModel);
 
-            var json = File.ReadAllText(inputDataFile);
+            string json = File.ReadAllText(inputDataFile);
 
-            var prediction = predictionEngine.Predict(JsonConvert.DeserializeObject<Email>(json));
+            EmailPrediction prediction = predictionEngine.Predict(JsonConvert.DeserializeObject<Email>(json));
 
             Console.WriteLine(
-                                $"Based on input json:{System.Environment.NewLine}" +
-                                $"{json}{System.Environment.NewLine}" + 
+                                $"Based on input json:{Environment.NewLine}" +
+                                $"{json}{Environment.NewLine}" +
                                 $"The email is predicted to be a {prediction.Category}");
         }
     }

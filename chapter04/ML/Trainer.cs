@@ -6,6 +6,8 @@ using chapter04.ML.Base;
 using chapter04.ML.Objects;
 
 using Microsoft.ML;
+using Microsoft.ML.Data;
+using Microsoft.ML.Trainers.FastTree;
 
 namespace chapter04.ML
 {
@@ -27,14 +29,15 @@ namespace chapter04.ML
                 return;
             }
 
-            var trainingDataView = MlContext.Data.LoadFromTextFile<CarInventory>(trainingFileName, ',', hasHeader: false);
+            IDataView trainingDataView = MlContext.Data.LoadFromTextFile<CarInventory>(trainingFileName, ',', hasHeader: false);
 
             IEstimator<ITransformer> dataProcessPipeline = MlContext.Transforms.Concatenate("Features",
                 typeof(CarInventory).ToPropertyList<CarInventory>(nameof(CarInventory.Label)))
                 .Append(MlContext.Transforms.NormalizeMeanVariance(inputColumnName: "Features",
                     outputColumnName: "FeaturesNormalizedByMeanVar"));
 
-            var trainer = MlContext.BinaryClassification.Trainers.FastTree(labelColumnName: nameof(CarInventory.Label),
+            // FastTree is based on the Multiple Additive Regression Trees (MART) gradient boosting algorithm.
+            FastTreeBinaryTrainer trainer = MlContext.BinaryClassification.Trainers.FastTree(labelColumnName: nameof(CarInventory.Label),
                 featureColumnName: "FeaturesNormalizedByMeanVar",
                 numberOfLeaves: 2,
                 numberOfTrees: 1000,
@@ -50,11 +53,11 @@ namespace chapter04.ML
                 .CalculateFeatureContribution(trainedModel.LastTransformer)
                 .Fit(dataProcessPipeline.Fit(trainingDataView).Transform(trainingDataView)));
 
-            var testDataView = MlContext.Data.LoadFromTextFile<CarInventory>(testFileName, ',', hasHeader: false);
+            IDataView testDataView = MlContext.Data.LoadFromTextFile<CarInventory>(testFileName, ',', hasHeader: false);
 
-            var testSetTransform = evaluationPipeline.Transform(testDataView);
+            IDataView testSetTransform = evaluationPipeline.Transform(testDataView);
 
-            var modelMetrics = MlContext.BinaryClassification.Evaluate(data: testSetTransform,
+            CalibratedBinaryClassificationMetrics modelMetrics = MlContext.BinaryClassification.Evaluate(data: testSetTransform,
                 labelColumnName: nameof(CarInventory.Label),
                 scoreColumnName: "Score");
 

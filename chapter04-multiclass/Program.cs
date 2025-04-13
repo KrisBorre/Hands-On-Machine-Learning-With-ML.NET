@@ -4,6 +4,10 @@ using chapter04_multiclass.ML;
 
 namespace chapter04_multiclass
 {
+    /// <summary>
+    /// Jarred Capellman build two ML.NET applications: the first, a binary classification example that will predict if a car's price is a good deal or not, akin to what you would find on a car purchase website; 
+    /// the other application, a multi-class classification application that categorizes emails.
+    /// </summary>
     class Program
     {
         static void Main(string[] args)

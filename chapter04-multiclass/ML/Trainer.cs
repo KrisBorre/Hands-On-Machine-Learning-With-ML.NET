@@ -26,7 +26,7 @@ namespace chapter04_multiclass.ML
                 return;
             }
 
-            var trainingDataView = MlContext.Data.LoadFromTextFile<Email>(trainingFileName, ',', hasHeader: false);
+            IDataView trainingDataView = MlContext.Data.LoadFromTextFile<Email>(trainingFileName, ',', hasHeader: false);
 
             var dataProcessPipeline = MlContext.Transforms.Conversion.MapValueToKey(inputColumnName: nameof(Email.Category), outputColumnName: "Label")
                 .Append(MlContext.Transforms.Text.FeaturizeText(inputColumnName: nameof(Email.Subject), outputColumnName: "SubjectFeaturized"))
@@ -42,9 +42,9 @@ namespace chapter04_multiclass.ML
             var trainedModel = trainingPipeline.Fit(trainingDataView);
             MlContext.Model.Save(trainedModel, trainingDataView.Schema, ModelPath);
 
-            var testDataView = MlContext.Data.LoadFromTextFile<Email>(testFileName, ',', hasHeader: false);
+            IDataView testDataView = MlContext.Data.LoadFromTextFile<Email>(testFileName, ',', hasHeader: false);
 
-            var modelMetrics = MlContext.MulticlassClassification.Evaluate(trainedModel.Transform(testDataView));
+            Microsoft.ML.Data.MulticlassClassificationMetrics modelMetrics = MlContext.MulticlassClassification.Evaluate(trainedModel.Transform(testDataView));
 
             Console.WriteLine($"MicroAccuracy: {modelMetrics.MicroAccuracy:0.###}");
             Console.WriteLine($"MacroAccuracy: {modelMetrics.MacroAccuracy:0.###}");
