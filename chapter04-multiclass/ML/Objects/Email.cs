@@ -2,6 +2,9 @@
 
 namespace chapter04_multiclass.ML.Objects
 {
+    /// <summary>
+    /// Jarred Capellman created a multi-class classification application, categorizing email into one of three categories: Orders, Spam, Friend.
+    /// </summary>
     public class Email
     {
         [LoadColumn(0)]
